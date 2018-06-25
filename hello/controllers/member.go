@@ -9,11 +9,6 @@ type LoginController struct {
 func (this *LoginController)Get(){
 	this.Data["title"]	=	"login"
 	this.Data["key"]	=	"loginKey"
-	//a :=[]map[string]string {0:{"a":"sdfsdf","b":"wqewqeqe","c":"wertre","d":"werewrw"},1:{"a":"qqqqqq","b":"wwwwww","c":"fffff","d":"sdfsdf"},2:{"a":"qqqqqq","b":"wwwwww","c":"fffff","d":"fgdfgdfg"}}
-	//x:=extend.Public{}
-	//returnData := x.GetFieldData(&a,"d")
-	//fmt.Println(returnData)
-
 	this.TplName	=	"login.html";
 }
 type GoLoginController struct {
@@ -30,6 +25,14 @@ func (this *GoLoginController)Post(){
 		return
 	}else{
 		this.Ctx.WriteString("正确")
+	}
+	//find user
+	findUser:=models.QueryByName(postData.username)
+	if findUser.Phone =="" {
+		this.Ctx.WriteString("not has this username")
+	}else{
+		//into the session
+		this.SetSession("loginUser",findUser.Phone)
 	}
 	//userId,err := models.AddData(postData.username,postData.password)
 	//if(user){
@@ -62,6 +65,7 @@ func (this *RegisterController)Post(){
 	//	return
 	//}
 	postData := postData{this.GetString("username"),this.GetString("password")}
+	//get data
 	//进行session记录
 	this.SetSession("loginUser",postData.username)
 	userM :=models.QueryByName(postData.username)
