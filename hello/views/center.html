@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+总数{{.num}}<br />
+    用户名：{{.user_detail.Phone}}
+    用户Id:  {{.user_detail.Id}}
+    头像:<img src="{{.user_detail.UserPic}}" />
+    简介：{{.user_detail.UserDec}}
+<hr />
+详情信息<br />
+{{range $index,$item := .art_list}}
+    标题：{{$item.Title}} -- 关键字{{$item.Keywords}} -- 创建时间{{$item.Ctm}}-----发布者--{{$item.Phone}}<br />
+{{else}}
+            空空空
+{{end}}
+<hr />
+{{if .art_info}}
+    详情标题：{{.art_info.Title}}
+    详情关键字：{{.art_info.Keywords}}
+    详情创建时间：{{.art_info.Ctm}}
+{{end}}
+<form action="" method="post">
+    图片:<input type="text" name="pic" />
+    介绍:<input type="text" name="dec" />
+    <input type="submit" value="提交" />
+</form>
+</body>
+</html>
