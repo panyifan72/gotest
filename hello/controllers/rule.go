@@ -6,6 +6,7 @@ import (
 	"hello/models"
 	"time"
 	"hello/extend"
+	"fmt"
 )
 //rule list
 type RuleListController struct {
@@ -28,10 +29,18 @@ type RuleOperationController struct {
 }
 //get rule list
 func (this *RuleListController) Get(){
-	this.Ctx.WriteString("xueru ok")
+	obRuleExtend	:=	extend.RuleExtend{}
+	where:=map[string]string{"rule":"ssss"}
+	count,listArr	:=	obRuleExtend.ListExtend(where,1,10)
+	fmt.Println(listArr)
+	fmt.Println(count)
 }
 //get  rule_info data
 func (this *RuleInfoController) Get(){
+	id,_	:=	strconv.Atoi(this.GetString("id"))
+
+	obRuleExtend	:=	extend.RuleExtend{}
+	info	:=	obRuleExtend.FindInfo(id)
 }
 //add and edit rule_info data
 func (this *RuleInfoController) Post(){

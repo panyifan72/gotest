@@ -33,7 +33,7 @@ func GetRuleById(id int) Test_rule{
 /*
 get all rule
  */
-func GetRuleList(where map [string]string,page int,offset int)(int64,error,[]Test_rule){
+func (this *RuleClass)GetRuleList(where map [string]string,page int,offset int)(int64,error,[]Test_rule){
 	o := orm.NewOrm()
 	qs := o.QueryTable("test_rule")
 	cond := orm.NewCondition()
@@ -53,7 +53,7 @@ func GetRuleList(where map [string]string,page int,offset int)(int64,error,[]Tes
 	return num,err1,test_rule
 }
 //find one by rule_name
-func (this RuleClass)FindOne(rule string) Test_rule{
+func (this *RuleClass)FindOne(rule string) Test_rule{
 	var test_rule Test_rule
 	o := orm.NewOrm()
 	artT := o.QueryTable("test_rule")
