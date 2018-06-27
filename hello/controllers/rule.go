@@ -32,15 +32,26 @@ func (this *RuleListController) Get(){
 	obRuleExtend	:=	extend.RuleExtend{}
 	where:=map[string]string{"rule":"ssss"}
 	count,listArr	:=	obRuleExtend.ListExtend(where,1,10)
+	this.Data["list"]	=	listArr
+	this.Data["count"]	=	count
+	this.TplName		=	"rule/list.html"
 	fmt.Println(listArr)
 	fmt.Println(count)
 }
 //get  rule_info data
 func (this *RuleInfoController) Get(){
 	id,_	:=	strconv.Atoi(this.GetString("id"))
-
 	obRuleExtend	:=	extend.RuleExtend{}
 	info	:=	obRuleExtend.FindInfo(id)
+	if info.Id>0{
+		if info.Id >0{
+			tm:=time.Unix(info.Ctm,0).Format("2006-01-02 03:04:05 PM")
+			this.Data["time"]	=	tm
+		}
+	}
+	this.Data["info"] = 	info
+	fmt.Println(info)
+	this.TplName = "rule/info.html"
 }
 //add and edit rule_info data
 func (this *RuleInfoController) Post(){
@@ -51,6 +62,17 @@ func (this *RuleAddController) Get(){
 	this.TplName		=	"rule/add.html"
 }
 func (this *RuleEditController) Get(){
+	id,_	:=	strconv.Atoi(this.GetString("id"))
+	obRuleExtend	:=	extend.RuleExtend{}
+	info	:=	obRuleExtend.FindInfo(id)
+	if info.Id>0{
+		if info.Id >0{
+			tm:=time.Unix(info.Ctm,0).Format("2006-01-02 03:04:05 PM")
+			this.Data["time"]	=	tm
+		}
+	}
+	this.Data["info"] = 	info
+	this.TplName = "rule/edit.html"
 }
 // post data edit
 func (this *RuleOperationController) Post(){

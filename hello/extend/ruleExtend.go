@@ -8,9 +8,13 @@ import (
 type RuleExtend struct {
 
 }
-func (this *RuleExtend)FindInfo(id int64)models.Test_rule{
-	ruleInfo := models.Test_rule
-	
+func (this *RuleExtend)FindInfo(id int)models.Test_rule{
+	ruleInfo := models.Test_rule{}
+	if id<=0{
+		return ruleInfo
+	}
+	obRuleClass :=models.RuleClass{}
+	ruleInfo	=	obRuleClass.GetRuleById(id)
 	return ruleInfo
 }
 /**
@@ -22,7 +26,7 @@ func (this *RuleExtend)ListExtend(where map[string]string,page int,offset int)(c
 	if page <1 || offset<1{
 		return count,arr
 	}
-	obTestRule	:=	model.RuleClass{}
+	obTestRule	:=	models.RuleClass{}
 	count,err,arr		:=	obTestRule.GetRuleList(where,page,offset)
 	fmt.Println(err)
 	return count,arr

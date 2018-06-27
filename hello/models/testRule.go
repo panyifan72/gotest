@@ -20,7 +20,7 @@ type RuleClass struct {
 /*
 get by id
  */
-func GetRuleById(id int) Test_rule{
+func (this *RuleClass)GetRuleById(id int) Test_rule{
 	var test_rule Test_rule
 	o := orm.NewOrm()
 	artT := o.QueryTable("test_rule")

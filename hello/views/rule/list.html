@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{range .list}}
+
+rule_name:{{.Rule_name}}-----rule:{{.Rule}}-------time:{{.Ctm}} <a href="/admin/rule/edit?id={{.Id}}">editrule</a> <br />
+{{end}}
+{{.count}}<br />
+</body>
+</html>
