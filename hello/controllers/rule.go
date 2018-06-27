@@ -32,11 +32,12 @@ func (this *RuleListController) Get(){
 	obRuleExtend	:=	extend.RuleExtend{}
 	where:=map[string]string{"rule":"ssss"}
 	count,listArr	:=	obRuleExtend.ListExtend(where,1,10)
+	fmt.Println(listArr)
 	this.Data["list"]	=	listArr
 	this.Data["count"]	=	count
 	this.TplName		=	"rule/list.html"
-	fmt.Println(listArr)
-	fmt.Println(count)
+	//fmt.Println(time.Now().Format("2006-01-02 15:04:05"))  时间字符串
+	//fmt.Println(time.Unix(1389058332, 0).Format("2006-01-02 15:04:05"))时间戳转字符串
 }
 //get  rule_info data
 func (this *RuleInfoController) Get(){
@@ -65,14 +66,17 @@ func (this *RuleEditController) Get(){
 	id,_	:=	strconv.Atoi(this.GetString("id"))
 	obRuleExtend	:=	extend.RuleExtend{}
 	info	:=	obRuleExtend.FindInfo(id)
-	if info.Id>0{
-		if info.Id >0{
-			tm:=time.Unix(info.Ctm,0).Format("2006-01-02 03:04:05 PM")
-			this.Data["time"]	=	tm
-		}
+	if info.Id >0{
+		tm:=time.Unix(info.Ctm,0).Format("2006-01-02 03:04:05 PM")
+		this.Data["time"]	=	tm
+		this.Data["info"] = 	info
+		this.TplName = "rule/edit.html"
+	}else{
+		//数据不存在进行错误页显示
+		this.Data["goUrl"]	=	"/admin/user/index"
+		this.Data["goMsg"]	=	"信息不存在"
+		this.TplName	=	"public/error.html"
 	}
-	this.Data["info"] = 	info
-	this.TplName = "rule/edit.html"
 }
 // post data edit
 func (this *RuleOperationController) Post(){

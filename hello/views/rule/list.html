@@ -5,9 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-{{range .list}}
+{{range $ind, $elem :=.list}}
 
-rule_name:{{.Rule_name}}-----rule:{{.Rule}}-------time:{{.Ctm}} <a href="/admin/rule/edit?id={{.Id}}">editrule</a> <br />
+
+rule_name:{{$elem.Test_rule_in.Rule_name}}-----rule:{{$elem.Test_rule_in.Rule}}-------time:{{$elem.Time}} <a href="/admin/rule/edit?id={{$elem.Test_rule_in.Id}}">editrule</a> <br />
 {{end}}
 {{.count}}<br />
 </body>
