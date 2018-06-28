@@ -23,6 +23,14 @@ type ListTestRule struct {
 	Test_rule_in models.Test_rule
 	Time string
 }
+/*
+获取全部规则
+ */
+func (this *RuleExtend) GetAllRule()(int64,[]models.Test_rule){
+	obRuleClass :=	models.RuleClass{}
+	num,ruleList 	:=	obRuleClass.GeALLRule()
+	return num,ruleList
+}
 /**
 获取列表信息
  */

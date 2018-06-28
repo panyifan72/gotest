@@ -17,4 +17,7 @@ func init() {
 	beego.Router("admin/rule/add",&controllers.RuleAddController{})//add
 	beego.Router("admin/rule/edit",&controllers.RuleEditController{})//edit
 	beego.Router("admin/rule/operation",&controllers.RuleOperationController{})//operation
+	beego.Router("admin/rule_api/add",&controllers.ApiAddController{})
+	beego.Router("admin/rule_api/edit",&controllers.ApiEditController{})
+	beego.Router("admin/rule_api/operation",&controllers.ApiOperationController{})
 }

@@ -29,6 +29,16 @@ func (this *RuleClass)GetRuleById(id int) Test_rule{
 	}
 	return test_rule
 }
+/**
+获取全部
+ */
+func (this *RuleClass) GeALLRule()(int64,[]Test_rule){
+	o := orm.NewOrm()
+	qs := o.QueryTable("test_rule")
+	var test_rule []Test_rule
+	num, _ := qs.All(&test_rule)
+	return num,test_rule
+}
 /*
 get all rule
  */
