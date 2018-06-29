@@ -6,6 +6,7 @@ var ReturnData =map[int]string{
 	200:"success",
 	403:"aaaa",
 	0:"system error",
+	207:"数据存在",
 }
 type ReturnErr struct {
 	Code int

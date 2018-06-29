@@ -4,7 +4,6 @@ import (
 	"github.com/astaxie/beego"
 	"hello/extend"
 	"strconv"
-	"fmt"
 )
 
 type ApiListController struct {
@@ -60,10 +59,17 @@ func (this *ApiEditController) Get(){
 修改数据
  */
 func (this *ApiOperationController) Post(){
-	api_name	:=	this.GetString("api_name")
-	api_param	:=	this.GetString("api_param")
-	api_url		:=	this.GetString("api_url")
-	api_method	:=	this.GetString("api_method")
-	api_test_rule_id	:=	this.GetStrings("test_rule_id")
+	operData := extend.OperData{}
+	operData.Id				=	this.GetString("id")
+	operData.Api_name		=	this.GetString("api_name")
+	operData.Api_param		=	this.GetString("api_param")
+	operData.Api_url		=	this.GetString("api_url")
+	operData.Api_method		=	this.GetString("api_method")
+	operData.Api_test_rule_id	=	this.GetStrings("test_rule_id")
+	obRulrApiExtend	:=	extend.RuleApiClass{}
+	returnArr :=	obRulrApiExtend.Operation(operData)
+	this.Data["msg"]	=	returnArr.Msg
+	this.Data["code"]	=	returnArr.Code
+	this.TplName		=	"public/success.html"
 }
 
