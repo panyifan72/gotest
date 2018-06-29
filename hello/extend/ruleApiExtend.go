@@ -16,12 +16,34 @@ func (this *RuleApiClass) GetInfo(){
 
 }
 type OperData struct {
-	Id 			string
-	Api_name	string
-	Api_param	string
-	Api_url		string
-	Api_method	string
-	Api_test_rule_id	[]string
+	Id               string
+	Api_name         string
+	Api_param        string
+	Api_url          string
+	Api_method       string
+	Api_test_rule_id []string
+}
+/**
+获取详情信息
+ */
+func (this *RuleApiClass) GetInfoById(id int) OperData{
+	var newDataInfo OperData
+	if id <=0{
+		return newDataInfo
+	}
+	obApiRuleModel	:=	models.ApiRuleClass{}
+	dataInfo		:=	obApiRuleModel.FindById(id)
+	if dataInfo.Id <=0{
+		return newDataInfo
+	}
+	newDataInfo.Id			=	dataInfo.Id
+	newDataInfo.Api_name	=	dataInfo.Api_name
+	newDataInfo.Api_param	=	dataInfo.Api_param
+	newDataInfo.Api_url		=	dataInfo.Api_url
+	newDataInfo.Api_method	=	dataInfo.Api_method
+	newDataInfo.Api_test_rule_id	=	dataInfo.test_rule_id//格式为1,2,3,4,5需要转换[1,2,3,4,5]
+
+	return newDataInfo
 }
 func (this *RuleApiClass) Operation(data OperData) ReturnErr{
 	//id处理

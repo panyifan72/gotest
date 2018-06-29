@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{.title}}</title>
 </head>
 <body>
-
+<div>{{.key}}</div>
+<form action="/admin/rule_api/operation" method="post">
+    api_name:<input type="text" name="api_name" value="{{.test_api.Api_name}}" /><br />
+    api_param:<input type="text" name="api_param" value="{{.test_api.Api_param}}" /><br />
+    api_url:<input type="text" name="api_url" value="{{.test_api.Api_url}}" /><br />
+    编号:
+{{range $ind, $elem :=.rule_list}}
+{{$elem.Rule_name}}<input type="checkbox" name="test_rule_id" value="{{$elem.Id}}">
+{{end}}
+    api_method:<br />
+    get:<input type="radio" name="api_method" value="0">
+    post:<input type="radio" name="api_method" value="1">
+    <input type="submit" value="submit">
+</form>
 </body>
 </html>

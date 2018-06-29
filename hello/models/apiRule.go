@@ -17,6 +17,16 @@ type Test_api struct {
 type ApiRuleClass struct {
 
 }
+func (this *ApiRuleClass) FindById(id int) Test_api{
+	var reTestApi Test_api
+	o := orm.NewOrm()
+	artT := o.QueryTable("test_api")
+	err := artT.Filter("id",id).One(&reTestApi)
+	if err != nil{
+		//日志记录
+	}
+	return reTestApi
+}
 /**
 查询是否重复
  */

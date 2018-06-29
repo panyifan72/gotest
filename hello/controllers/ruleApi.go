@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"hello/extend"
 	"strconv"
+	"fmt"
 )
 
 type ApiListController struct {
@@ -49,7 +50,10 @@ func (this *ApiEditController) Get(){
 		return
 	}
 	obRuleExtend	:=	extend.RuleExtend{}
-	_,ruleList 	:=	obRuleExtend.GetAllRule()
+	_,ruleList 		:=	obRuleExtend.GetAllRule()
+	obApiExtend		:=	extend.RuleApiClass{}
+	testApiInfo		:=	obApiExtend.GetInfoById(id)
+	fmt.Println(testApiInfo)
 	this.Data["title"]	=	"apiEditTitle"
 	this.Data["key"]	=	"apiEditKey"
 	this.Data["rule_list"]	=	ruleList
