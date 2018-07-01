@@ -10,9 +10,7 @@
     api_name:<input type="text" name="api_name" value="{{.info.Api_name}}" />
     <hr />
     api_param:
-    {{range $key,$item:= .info.Api_param_arr}}
-    <input type="text" name="api_param" value="{{$item}}" /><br />
-     {{end}}
+    <input type="text" name="api_param" value="{{.info.Api_param}}" /> <br />
     <hr />
     api_url:<input type="text" name="api_url" value="{{.info.Api_url}}" />
     <hr />
