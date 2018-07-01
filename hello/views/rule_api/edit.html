@@ -7,16 +7,25 @@
 <body>
 <div>{{.key}}</div>
 <form action="/admin/rule_api/operation" method="post">
-    api_name:<input type="text" name="api_name" value="{{.test_api.Api_name}}" /><br />
-    api_param:<input type="text" name="api_param" value="{{.test_api.Api_param}}" /><br />
-    api_url:<input type="text" name="api_url" value="{{.test_api.Api_url}}" /><br />
+    api_name:<input type="text" name="api_name" value="{{.info.Api_name}}" />
+    <hr />
+    api_param:
+    {{range $key,$item:= .info.Api_param_arr}}
+    <input type="text" name="api_param" value="{{$item}}" /><br />
+     {{end}}
+    <hr />
+    api_url:<input type="text" name="api_url" value="{{.info.Api_url}}" />
+    <hr />
     编号:
 {{range $ind, $elem :=.rule_list}}
-{{$elem.Rule_name}}<input type="checkbox" name="test_rule_id" value="{{$elem.Id}}">
+{{$elem.Rule_name}}
+
+    <input type="checkbox" name="test_rule_id" {{range $apikey,$apiVal := $.info.Api_test_rule_id_int}}{{if eq  $elem.Id $apiVal}} CHECKED{{end}}{{end}} value="{{$elem.Id}}">
 {{end}}
-    api_method:<br />
-    get:<input type="radio" name="api_method" value="0">
-    post:<input type="radio" name="api_method" value="1">
+    <hr />
+    api_method:
+    get:<input type="radio" name="api_method" value="0" {{if eq .info.Api_method 0}}CHECKED{{end}}>
+    post:<input type="radio" name="api_method" value="1" {{if eq .info.Api_method 1}}CHECKED{{end}}>
     <input type="submit" value="submit">
 </form>
 </body>

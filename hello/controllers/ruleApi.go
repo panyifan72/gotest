@@ -54,6 +54,7 @@ func (this *ApiEditController) Get(){
 	obApiExtend		:=	extend.RuleApiClass{}
 	testApiInfo		:=	obApiExtend.GetInfoById(id)
 	fmt.Println(testApiInfo)
+	this.Data["info"]	=	testApiInfo
 	this.Data["title"]	=	"apiEditTitle"
 	this.Data["key"]	=	"apiEditKey"
 	this.Data["rule_list"]	=	ruleList
@@ -68,7 +69,7 @@ func (this *ApiOperationController) Post(){
 	operData.Api_name		=	this.GetString("api_name")
 	operData.Api_param		=	this.GetString("api_param")
 	operData.Api_url		=	this.GetString("api_url")
-	operData.Api_method		=	this.GetString("api_method")
+	operData.Api_method,_	=	strconv.Atoi(this.GetString("api_method"))
 	operData.Api_test_rule_id	=	this.GetStrings("test_rule_id")
 	obRulrApiExtend	:=	extend.RuleApiClass{}
 	returnArr :=	obRulrApiExtend.Operation(operData)

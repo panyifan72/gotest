@@ -6,13 +6,13 @@ import (
 )
 
 type Test_api struct {
-	Id 			int
-	Api_name 	string
-	Api_param	string
-	Test_rule_id string
-	Api_url		string
-	Api_method	string
-	Ctm			int64
+	Id 				int
+	Api_name 		string
+	Api_param		string
+	Test_rule_id 	string
+	Api_url			string
+	Api_method		int
+	Ctm				int64
 }
 type ApiRuleClass struct {
 

@@ -20,8 +20,10 @@ type OperData struct {
 	Api_name         string
 	Api_param        string
 	Api_url          string
-	Api_method       string
+	Api_method       int
 	Api_test_rule_id []string
+	Api_param_arr	[]string
+	Api_test_rule_id_int []int
 }
 /**
 获取详情信息
@@ -36,13 +38,19 @@ func (this *RuleApiClass) GetInfoById(id int) OperData{
 	if dataInfo.Id <=0{
 		return newDataInfo
 	}
-	newDataInfo.Id			=	dataInfo.Id
+	newDataInfo.Id			=	strconv.Itoa(dataInfo.Id)
 	newDataInfo.Api_name	=	dataInfo.Api_name
 	newDataInfo.Api_param	=	dataInfo.Api_param
 	newDataInfo.Api_url		=	dataInfo.Api_url
 	newDataInfo.Api_method	=	dataInfo.Api_method
-	newDataInfo.Api_test_rule_id	=	dataInfo.test_rule_id//格式为1,2,3,4,5需要转换[1,2,3,4,5]
-
+	newDataInfo.Api_test_rule_id	=	strings.Split(dataInfo.Test_rule_id,",")//格式为1,2,3,4,5需要转换[1,2,3,4,5]
+	if len(newDataInfo.Api_test_rule_id)>0 {
+		for i:=0;i<len(newDataInfo.Api_test_rule_id);i++{
+			strInt,_:=strconv.Atoi(newDataInfo.Api_test_rule_id[i])
+			newDataInfo.Api_test_rule_id_int = append(newDataInfo.Api_test_rule_id_int,strInt)
+		}
+	}
+	newDataInfo.Api_param_arr		=	strings.Split(dataInfo.Api_param,",")
 	return newDataInfo
 }
 func (this *RuleApiClass) Operation(data OperData) ReturnErr{
