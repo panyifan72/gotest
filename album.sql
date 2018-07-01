@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2018-06-26 00:01:26
+Date: 2018-07-02 00:00:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -126,17 +126,18 @@ DROP TABLE IF EXISTS `test_api`;
 CREATE TABLE `test_api` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `api_name` varchar(50) NOT NULL COMMENT 'api名称',
-  `api_param` text NOT NULL COMMENT 'api请求参数json格式',
-  `test_rule_id` char(250) NOT NULL COMMENT '测试规则编号',
-  `api_url` varchar(50) NOT NULL COMMENT 'api链接地址',
+  `api_param` text CHARACTER SET latin1 NOT NULL COMMENT 'api请求参数json格式',
+  `test_rule_id` char(250) CHARACTER SET latin1 NOT NULL COMMENT '测试规则编号',
+  `api_url` varchar(50) CHARACTER SET latin1 NOT NULL COMMENT 'api链接地址',
   `api_method` tinyint(4) DEFAULT NULL COMMENT '1 get 2 post',
   `ctm` int(11) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='api接口设置';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='api接口设置';
 
 -- ----------------------------
 -- Records of test_api
 -- ----------------------------
+INSERT INTO `test_api` VALUES ('1', '测试', 'a b c', '28,27', 'http://www.baidu.com', '0', '1529854769');
 
 -- ----------------------------
 -- Table structure for test_rule
@@ -149,12 +150,14 @@ CREATE TABLE `test_rule` (
   `status` tinyint(4) NOT NULL COMMENT '0启用1未启用',
   `ctm` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1 COMMENT='规则表';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1 COMMENT='规则表';
 
 -- ----------------------------
 -- Records of test_rule
 -- ----------------------------
 INSERT INTO `test_rule` VALUES ('27', 'asdasd', 'dfsd', '0', '1529854769');
+INSERT INTO `test_rule` VALUES ('28', 'qqqqq', 'wwwww', '0', '1529854769');
+INSERT INTO `test_rule` VALUES ('29', 'qwqwqw', 'sdfsdfsdf', '0', '1529854769');
 
 -- ----------------------------
 -- Table structure for user
