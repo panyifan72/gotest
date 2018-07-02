@@ -7,9 +7,10 @@
 <body>
     <div>{{.key}}</div>
     <form action="/admin/rule_api/operation" method="post">
-        api_name:<input type="text" name="api_name" /><br />
-        api_param:<input type="text" name="api_param" /><br />
-        api_url:<input type="text" name="api_url" /><br />
+        api_name:<input type="text" name="api_name" /><hr />
+        api_param:<input type="text" name="api_param" /><hr />
+        api_url:<input type="text" name="api_url" /><hr />
+        success_data <textarea name="success_data" style="width: 100%;height:50px;"></textarea>
         编号:
         {{range $ind, $elem :=.rule_list}}
         {{$elem.Rule_name}}<input type="checkbox" name="test_rule_id" value="{{$elem.Id}}">

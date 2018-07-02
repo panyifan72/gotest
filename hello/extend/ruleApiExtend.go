@@ -20,6 +20,7 @@ type OperData struct {
 	Api_name         string
 	Api_param        string
 	Api_url          string
+	Success_data	 string
 	Api_method       int
 	Api_test_rule_id []string
 	Api_param_arr	[]string
@@ -43,6 +44,7 @@ func (this *RuleApiClass) GetInfoById(id int) OperData{
 	newDataInfo.Api_param	=	dataInfo.Api_param
 	newDataInfo.Api_url		=	dataInfo.Api_url
 	newDataInfo.Api_method	=	dataInfo.Api_method
+	newDataInfo.Success_data	=	dataInfo.Success_data
 	newDataInfo.Api_test_rule_id	=	strings.Split(dataInfo.Test_rule_id,",")//格式为1,2,3,4,5需要转换[1,2,3,4,5]
 	if len(newDataInfo.Api_test_rule_id)>0 {
 		for i:=0;i<len(newDataInfo.Api_test_rule_id);i++{
@@ -72,9 +74,9 @@ func (this *RuleApiClass) Operation(data OperData) ReturnErr{
 	test_rule.Api_param		=	data.Api_param
 	test_rule.Api_url		=	data.Api_url
 	test_rule.Api_method	=	data.Api_method
+	test_rule.Success_data	=	data.Success_data
 	test_rule.Test_rule_id	=	idStr
 	fmt.Println(test_rule)
-
 	err := obApiRuleModel.Oper(test_rule)
 	if err != nil{
 		return GoReturn(0,"")

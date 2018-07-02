@@ -69,6 +69,7 @@ func (this *ApiOperationController) Post(){
 	operData.Api_name		=	this.GetString("api_name")
 	operData.Api_param		=	this.GetString("api_param")
 	operData.Api_url		=	this.GetString("api_url")
+	operData.Success_data	=	this.GetString("success_data")
 	operData.Api_method,_	=	strconv.Atoi(this.GetString("api_method"))
 	operData.Api_test_rule_id	=	this.GetStrings("test_rule_id")
 	obRulrApiExtend	:=	extend.RuleApiClass{}

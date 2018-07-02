@@ -9,6 +9,7 @@ type Test_api struct {
 	Id 				int
 	Api_name 		string
 	Api_param		string
+	Success_data	string
 	Test_rule_id 	string
 	Api_url			string
 	Api_method		int
@@ -35,7 +36,8 @@ func (this *ApiRuleClass) FindOne(api_name string,id int) Test_api{
 	o := orm.NewOrm()
 	artT := o.QueryTable("test_api")
 	if id >0 {
-		err := artT.Filter("api_name", api_name).Filter("id",id).One(&reTestApi)
+		err := artT.Filter("api_name", api_name).Filter("id__gt",id).Filter("id__lt",id).One(&reTestApi)
+
 		if err!=nil{
 			//日志记录错误
 		}
@@ -56,13 +58,14 @@ func (this *ApiRuleClass)Oper(data Test_api)error{
 	getTime := time.Now().Unix()
 	data.Ctm	=	getTime
 	if data.Id>0{ //更新
-		_, err := o.QueryTable("test_rule").Filter("id", data.Id).Update(orm.Params{
+		_, err := o.QueryTable("test_api").Filter("id", data.Id).Update(orm.Params{
 			"api_name": data.Api_name,
-			"Api_param": data.Api_param,
-			"Test_rule_id": data.Test_rule_id,
-			"Api_url": data.Api_url,
-			"Api_method": data.Api_method,
-			"Ctm": getTime,
+			"api_param": data.Api_param,
+			"test_rule_id": data.Test_rule_id,
+			"api_url": data.Api_url,
+			"api_method": data.Api_method,
+			"success_data"	:	data.Success_data,
+			"ctm": getTime,
 		})
 		reErr	=	err
 	}else {//新增
