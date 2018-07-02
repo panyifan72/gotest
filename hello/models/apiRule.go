@@ -18,6 +18,31 @@ type Test_api struct {
 type ApiRuleClass struct {
 
 }
+/**
+获取列表数据
+ */
+func(this *ApiRuleClass) GetList(where map [string]string,page int,offset int)(int64,error,[]Test_api){
+	var TestApi []Test_api
+	o := orm.NewOrm()
+	qs := o.QueryTable("test_api")
+	cond := orm.NewCondition()
+	if where["api_name"] != ""{
+		cond = cond.And("api_name",where["api_name"])
+	}
+	qs = qs.SetCond(cond)
+	if page < 1 {
+		page = 1
+	}
+	if offset < 1 {
+		offset = 9
+	}
+	start := (page - 1) * offset
+	num, err1 := qs.Limit(offset, start).All(&TestApi)
+	return num,err1,TestApi
+}
+/**
+获取单条记录
+ */
 func (this *ApiRuleClass) FindById(id int) Test_api{
 	var reTestApi Test_api
 	o := orm.NewOrm()

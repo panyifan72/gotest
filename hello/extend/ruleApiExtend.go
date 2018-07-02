@@ -5,12 +5,10 @@ import (
 	"hello/models"
 	"fmt"
 	"strconv"
+	"time"
 )
 
 type RuleApiClass struct {
-}
-func (this *RuleApiClass) GetList(){
-
 }
 func (this *RuleApiClass) GetInfo(){
 
@@ -25,6 +23,66 @@ type OperData struct {
 	Api_test_rule_id []string
 	Api_param_arr	[]string
 	Api_test_rule_id_int []int
+}
+type TestApiList struct {
+	Test_api models.Test_api
+	Api_test_rule_str string
+	Show_time	string
+}
+/**
+获取列表
+ */
+func (this *RuleApiClass) GetList(where map[string]string,page int,offset int)(int64,error,[]TestApiList){
+	var returnTestApiList []TestApiList
+	obApiTestClass:= models.ApiRuleClass{}
+	count,err,apiTestList	:=	obApiTestClass.GetList(where,page,offset)
+	if err != nil{
+		return count,err,returnTestApiList
+	}
+	//获取全部规则信息
+	obRuleClass := models.RuleClass{}
+	_,RuleList 	:=	obRuleClass.GeALLRule()
+	RuleNewList :=	ruleChange(&RuleList)
+	if count >0{
+			for _,val:= range apiTestList{
+				var mapString []string
+				if len(val.Test_rule_id)>0 {//存在数据
+					newString:=strings.Split(val.Test_rule_id,",")
+					for _,stringVal := range newString{
+						stringToInt,_:=strconv.Atoi(stringVal)
+						if  stringToInt>0 {
+							if _,ok := RuleNewList[stringToInt];ok{//判断key是否在map中
+								mapString = append(mapString,RuleNewList[stringToInt].Rule_name)
+							}
+						}
+					}
+					splitStr	:=	""
+					if len(mapString)>0 {
+						splitStr = strings.Join(mapString,",")
+					}
+					returnTestApiList	=	append(returnTestApiList,TestApiList{
+						Api_test_rule_str:splitStr,
+						Test_api:val,
+						Show_time:time.Unix(val.Ctm, 0).Format("2006-01-02 15:04:05"),
+					})
+				}
+			}
+	}
+	return count,err,returnTestApiList
+}
+/**
+修改map类型
+ */
+func ruleChange(ruleList *[]models.Test_rule) map[int]models.Test_rule{
+	var ruleChangeList map[int]models.Test_rule
+	ruleChangeList	=	make(map[int]models.Test_rule)
+	if len(*ruleList)  == 0{
+		return ruleChangeList
+	}
+	for _,val:=range *ruleList{
+		ruleChangeList[val.Id]	=	val
+	}
+	return ruleChangeList
 }
 /**
 获取详情信息

@@ -25,7 +25,19 @@ type ApiOperationController struct {
 func (this * ApiListController) Get(){
 	this.Data["title"]	=	"apiListTitle"
 	this.Data["key"]	=	"apiListKey"
-	this.TplName		=	"rule_api/list.html"
+	obRuleExtend	:=	extend.RuleApiClass{}
+	where:=map[string]string{"rule":""}
+	count,err,list 	:=	obRuleExtend.GetList(where,1,10)
+	fmt.Println(list)
+	if err!= nil{
+		this.Data["goUrl"]	=	"/admin/user/index"
+		this.Data["goMsg"]	=	"系统错误"
+		this.TplName	=	"public/error.html"
+	}else{
+		this.Data["list"]	=	list
+		this.Data["count"]	=	count
+		this.TplName		=	"rule_api/list.html"
+	}
 }
 /*
 添加数据

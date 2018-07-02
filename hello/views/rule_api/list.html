@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{.title}}</title>
 </head>
 <body>
-
+    <div>{{.key}}</div>
+    {{range $key,$item:= .list}}
+        {{$item.Test_api.Id}} --- {{$item.Test_api.Api_name}} --- {{$item.Test_api.Api_param}}
+        ---{{$item.Test_api.Api_url}} ---{{$item.Test_api.Api_method}} ---{{$item.Api_test_rule_str}}
+        ---{{$item.Show_time}}
+        <a href="/admin/rule_api/edit?id={{$item.Test_api.Id}}">编辑</a> <br />
+    {{end}}
+    <br />
+    总数：{{.count}}
 </body>
 </html>
