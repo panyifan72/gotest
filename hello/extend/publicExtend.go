@@ -5,6 +5,7 @@ type PublicExtend struct {
 var ReturnData =map[int]string{
 	200:"success",
 	403:"aaaa",
+	404:"不存在",
 	0:"system error",
 	207:"数据存在",
 }

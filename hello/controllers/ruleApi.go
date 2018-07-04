@@ -10,15 +10,6 @@ import (
 type ApiListController struct {
 	beego.Controller
 }
-type ApiAddController struct {
-	beego.Controller
-}
-type ApiEditController struct {
-	beego.Controller
-}
-type ApiOperationController struct {
-	beego.Controller
-}
 /*
 列表详情
  */
@@ -42,7 +33,7 @@ func (this * ApiListController) Get(){
 /*
 添加数据
  */
-func (this *ApiAddController) Get() {
+func (this *ApiListController) Add() {
 	obRuleExtend	:=	extend.RuleExtend{}
 	_,ruleList 	:=	obRuleExtend.GetAllRule()
 	this.Data["title"]	=	"apiAddTitle"
@@ -53,7 +44,7 @@ func (this *ApiAddController) Get() {
 /*
 编辑数据
  */
-func (this *ApiEditController) Get(){
+func (this *ApiListController) Edit(){
 	id,_:= strconv.Atoi(this.GetString("id"))
 	if id<=0 {
 		this.Data["goUrl"]	=	"rule_api/index"
@@ -65,7 +56,13 @@ func (this *ApiEditController) Get(){
 	_,ruleList 		:=	obRuleExtend.GetAllRule()
 	obApiExtend		:=	extend.RuleApiClass{}
 	testApiInfo		:=	obApiExtend.GetInfoById(id)
-	fmt.Println(testApiInfo)
+	idInt,_:=strconv.ParseInt(testApiInfo.Id,0,64)
+	if  idInt<=0 {
+		this.Data["goUrl"]	=	"rule_api/index"
+		this.Data["goMsg"]	=	"数据不存在"
+		this.TplName		=	"public/error.html"
+		return
+	}
 	this.Data["info"]	=	testApiInfo
 	this.Data["title"]	=	"apiEditTitle"
 	this.Data["key"]	=	"apiEditKey"
@@ -75,7 +72,7 @@ func (this *ApiEditController) Get(){
 /*
 修改数据
  */
-func (this *ApiOperationController) Post(){
+func (this *ApiListController) Operation(){
 	operData := extend.OperData{}
 	operData.Id				=	this.GetString("id")
 	operData.Api_name		=	this.GetString("api_name")

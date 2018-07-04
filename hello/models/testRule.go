@@ -16,6 +16,16 @@ type Test_rule struct {
 type RuleClass struct {
 	Id 			int64
 }
+/**
+根据In获取列表
+ */
+func (this *RuleClass)GetRuleByIdIn(id *[]int) (int64,[]Test_rule){
+	o := orm.NewOrm()
+	qs := o.QueryTable("test_rule").Filter("id__in",*id)
+	var test_rule []Test_rule
+	num, _ := qs.All(&test_rule)
+	return num,test_rule
+}
 /*
 get by id
  */
