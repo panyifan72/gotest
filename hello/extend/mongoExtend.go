@@ -25,4 +25,12 @@ func (this *MongoExtendClass) Data() *mgo.Database{
 	c := PublicSession.DB(database)
 	return c
 }
+/*
+插入数据
+ */
+func (this *MongoExtendClass) Insert(table string,data interface{})error{
+	err := this.Data().C(table).Insert(&data)
+	defer PublicSession.Close()//关闭mongo
+	return err
+}
 

@@ -15,8 +15,9 @@ type Person struct {
 
 func (this * TestController) Get(){
 	obMongo	:= extend.MongoExtendClass{}
-	obMongo.Data().C("people").Insert(&Person{"superWang", "13478808311"})
-	extend.PublicSession.Close()//关闭mongo
+	obMongo.Insert("people",&Person{"superWang", "13478808311"})
+	//obMongo.Data().C("people").Insert(&Person{"superWang", "13478808311"})
+	//extend.PublicSession.Close()//关闭mongo
 	//
 	//var err error
 	//err = c.Insert(&Person{"superWang", "13478808311"},
