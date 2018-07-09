@@ -33,4 +33,11 @@ func (this *MongoExtendClass) Insert(table string,data interface{})error{
 	defer PublicSession.Close()//关闭mongo
 	return err
 }
+/**
+更新数据
+ */
+func (this *MongoExtendClass) Update(table string,data interface{})error{
+	var err error
+	return err
+}
 
