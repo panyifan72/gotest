@@ -3,6 +3,7 @@ package extend
 import (
 	"gopkg.in/mgo.v2"
 	"fmt"
+	"time"
 )
 
 type MongoExtendClass struct {
@@ -24,7 +25,7 @@ func init(){
 获取数据库
  */
 func (this *MongoExtendClass) Data() *mgo.Database{
-	database:="test"
+	database:="gscf"
 	c := PublicSession.DB(database)
 	return c
 }
@@ -89,13 +90,42 @@ func (this *MongoExtendClass) Del(table string,data interface{}) error{
 /*
 查询一条记录
  */
-func (this *MongoExtendClass) FindOne(table string,id string){
-	info,err := this.Data().C(table).FindId().One()
+ type User struct {
+ 	Name string
+ 	Age int
+ 	joned_at time.Time
+ 	phone string
+}
+type Tender_custory_log struct {
+	Uuid 	string
+	Client 	string
+	Service string
+	Params	string
+	Ip		string
+	Add_time	string
+ }
+/**
+使用方法
+	findWhere	:=	bson.M{"age":33}
+	d := obMongo.FindOne("people",findWhere)
+ */
+func (this *MongoExtendClass) FindOne(table string,data interface{}) User{
+	var resultInfo	User
+	err := this.Data().C(table).Find(data).One(&resultInfo)
+	if err != nil{
+		fmt.Println(err)
+	}
+	return resultInfo
 }
 /*
 查询多条记录
  */
-func (this *MongoExtendClass) FindAll(){
-
+func (this *MongoExtendClass) FindAll(table string,data interface{}) []Tender_custory_log{
+	var resultInfo	[]Tender_custory_log
+	err := this.Data().C(table).Find(data).All(&resultInfo)
+	if err != nil{
+		fmt.Println(err)
+	}
+	return resultInfo
 }
 

@@ -5,6 +5,7 @@ import (
 	"hello/extend"
 	"gopkg.in/mgo.v2/bson"
 	"time"
+	"fmt"
 )
 
 type TestController struct {
@@ -21,7 +22,10 @@ type User struct
 func (this * TestController) Get(){
 	obMongo	:= extend.MongoExtendClass{}
 	//obMongo.Insert("people",User{ Id_: bson.NewObjectId(), Name: "Jimmy Kuu", Age: 33 })
-	obMongo.Del("people",bson.M{"name":"superWang"})
+	//obMongo.Del("people",bson.M{"name":"superWang"})
+	findWhere	:=	bson.M{"ip":1901531091}
+	d := obMongo.FindAll("tender_custody_log",findWhere)
+	fmt.Println(d)
 	//result := Person{}
 	//err = c.Find(bson.M{"name": "superWang"}).One(&result)
 	//if err != nil {
