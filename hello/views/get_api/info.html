@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.title}}</title>
+</head>
+<body>
+<div>{{.key}}</div>
+<form action="/admin/get_api/run" method="get">
+   <div>接口名称：{{.info.Test_api.Api_name}}</div>
+   <div>接口链接：{{.info.Test_api.Api_url}}</div>
+    <div>
+        测试接口内容：<br />
+        {{range $ind, $elem :=.rule_list}}
+            规则名称:{{$elem.Rule_name}}<input type="checkbox" name="rule_id" value="{{$elem.Id}}"><br />
+        {{end}}
+    </div>
+    <div>创建时间：{{.info.Ctm_display}}</div>
+    <input type="hidden" name="id" value="{{.info.Test_api.Id}}">
+    <input type="submit" value="点击测试">
+</form>
+</body>
+</html>

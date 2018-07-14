@@ -4,10 +4,30 @@ import (
 	"github.com/astaxie/beego"
 	"hello/extend"
 	"fmt"
+	"github.com/mikemintang/go-curl"
 )
 
 type GetApiController struct {
 	beego.Controller
+}
+func (this *GetApiController) RunTest(){
+	ruleId := this.GetStrings("rule_id")
+	fmt.Println(this.Input().Get("id"))
+	obGetApiExtend	:=	extend.GetApiExtend{}
+	urlList:=obGetApiExtend.ReturnUrl(ruleId,this.Input().Get("id"))
+	if len(urlList) <=0 {
+		this.Data["goUrl"]	=	"rule_api/index"
+		this.Data["goMsg"]	=	"编号不能为空"
+		this.TplName		=	"public/error.html"
+		return
+	}
+	for _,v := range urlList{
+		fmt.Println(v)
+		req:=curl.NewRequest()
+		result,_ := req.SetUrl(v).Post()
+		this.Ctx.WriteString(result.Body)
+		this.Ctx.WriteString("<br />")
+	}
 }
 func (this *GetApiController) Test(){
 	id,err := this.GetInt("id")
@@ -25,6 +45,13 @@ func (this *GetApiController) Test(){
 		this.TplName		=	"public/error.html"
 		return
 	}
-	fmt.Println(data)
-	this.Ctx.WriteString("sss")
+	//get rulelist
+	obRuleList	:=	extend.RuleExtend{}
+	_,rule_list	:=	obRuleList.GetAllRule()
+	this.Data["title"]	=	"apitesttitle"
+	this.Data["key"]	=	"apiEditKey"
+	this.Data["info"]	=	data
+	this.Data["rule_list"]	=	rule_list
+	this.TplName	=	"get_api/info.html"
 }
+
