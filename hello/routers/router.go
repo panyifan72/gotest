@@ -23,5 +23,6 @@ func init() {
 	beego.Router("admin/rule_api/operation",&controllers.ApiListController{},"post:Operation")
 	beego.Router("admin/get_api/index",&controllers.GetApiController{},"get:Test")
 	beego.Router("admin/get_api/run",&controllers.GetApiController{},"get:RunTest")
-	beego.Router("test",&controllers.TestController{})
+	beego.Router("admin/get_api/testuri",&controllers.GetApiController{},"get:Show")
+	//beego.Router("test",&controllers.TestController{})
 }

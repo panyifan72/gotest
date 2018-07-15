@@ -12,7 +12,6 @@ type GetApiController struct {
 }
 func (this *GetApiController) RunTest(){
 	ruleId := this.GetStrings("rule_id")
-	fmt.Println(this.Input().Get("id"))
 	obGetApiExtend	:=	extend.GetApiExtend{}
 	urlList:=obGetApiExtend.ReturnUrl(ruleId,this.Input().Get("id"))
 	if len(urlList) <=0 {
@@ -22,12 +21,16 @@ func (this *GetApiController) RunTest(){
 		return
 	}
 	for _,v := range urlList{
-		fmt.Println(v)
+		this
 		req:=curl.NewRequest()
 		result,_ := req.SetUrl(v).Post()
 		this.Ctx.WriteString(result.Body)
 		this.Ctx.WriteString("<br />")
 	}
+}
+func (this *GetApiController) Show(){
+	fmt.Println(this.Input())
+	this.Ctx.WriteString(this.Input().Encode())
 }
 func (this *GetApiController) Test(){
 	id,err := this.GetInt("id")
