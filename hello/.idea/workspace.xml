@@ -29,7 +29,7 @@
         <entry file="file://$PROJECT_DIR$/conf/app.conf">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="124">
-              <caret line="4" column="7" lean-forward="true" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+              <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -155,7 +155,7 @@
     <entry file="file://$PROJECT_DIR$/conf/app.conf">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
-          <caret line="4" column="7" lean-forward="true" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+          <caret line="4" column="18" lean-forward="true" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
         </state>
       </provider>
     </entry>

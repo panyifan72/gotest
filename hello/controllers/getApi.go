@@ -10,6 +10,9 @@ import (
 type GetApiController struct {
 	beego.Controller
 }
+/*
+运行测试
+ */
 func (this *GetApiController) RunTest(){
 	ruleId := this.GetStrings("rule_id")
 	obGetApiExtend	:=	extend.GetApiExtend{}
