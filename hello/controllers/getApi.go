@@ -5,6 +5,7 @@ import (
 	"hello/extend"
 	"fmt"
 	"github.com/mikemintang/go-curl"
+	"hello/models"
 )
 
 type GetApiController struct {
@@ -17,6 +18,7 @@ func (this *GetApiController) RunTest(){
 	ruleId := this.GetStrings("rule_id")
 	obGetApiExtend	:=	extend.GetApiExtend{}
 	info,urlList:=obGetApiExtend.ReturnUrl(ruleId,this.Input().Get("id"))
+	this.Ctx.WriteString("<br />")
 	if len(urlList) <=0 {
 		this.Data["goUrl"]	=	"rule_api/index"
 		this.Data["goMsg"]	=	"编号不能为空"
@@ -25,17 +27,20 @@ func (this *GetApiController) RunTest(){
 	}
 	req:=curl.NewRequest()
 	for _,v := range urlList{
-		fmt.Println(v)
 		if info.Api_method == 1{
 			result,_ := req.SetUrl(v).Get()
 			if result.IsOk(){
 				this.Ctx.WriteString(result.Body)
+				//记录测试过程日志
+				obTestLogModel := models.TestApiLogModel{}
+				obTestLogModel.AddOne(v,result.Body)//添加测试数据
 			}else {
 				fmt.Println(result.Raw)
 			}
 		}else if info.Api_method == 2 {
 			result,_ := req.SetUrl(v).Post()
 			if result.IsOk(){
+				this.Ctx.WriteString("运行结果")
 				this.Ctx.WriteString(result.Body)
 			}else {
 				fmt.Println(result.Raw)

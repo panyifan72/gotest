@@ -37,15 +37,19 @@ func (this *GetApiExtend) ReturnUrl(rule_id []string,id string)(models.Test_api,
 	apiParams := strings.Split(getApiInfo.Api_param," ")
 	var pingjie string
 	for _,vals := range ruleList{
-		for _,pa_val := range apiParams{//顺序返回
+		for pa_key,pa_val := range apiParams{//顺序返回
 			pingjie += pa_val+"="+vals.Rule+"&"
 			if len(pingjie) <=0 {
 				continue
 			}
+			onlyString := getApiInfo.Api_url+"?"+pa_val+"="+vals.Rule//单独
+			rsstring = append(rsstring,onlyString)
+			if pa_key>0{
+				thisUrl:=strings.TrimRight(getApiInfo.Api_url+"?"+pingjie,"&")//组合
+				rsstring = append(rsstring,thisUrl)
+			}
 		}
-		thisUrl:=strings.TrimRight(getApiInfo.Api_url+"?"+pingjie,"&")
 		pingjie = ""
-		rsstring = append(rsstring,thisUrl)
 	}
 	if getApiInfo.Success_data != ""{//正确数据添加
 		apiSuccesData	:=	strings.Split(getApiInfo.Success_data," ")
@@ -60,8 +64,21 @@ func (this *GetApiExtend) ReturnUrl(rule_id []string,id string)(models.Test_api,
 	return getApiInfo,rsstring
 }
 /*
+abc
+a   b   c
+ab   ac  bc
+abc
+/*
 获取相关列表
  */
+ func paramsArr(str []string){
+	strLen := len(str)
+	for i:=0;i<strLen;i++{
+		if i!=(strLen-1){
+			//paramsArr()
+		}
+	}
+ }
 func (this *GetApiExtend) GetRuleListByIdIn(id *[]string)[]models.Test_rule{
 	var result []models.Test_rule
 	var idList []int
