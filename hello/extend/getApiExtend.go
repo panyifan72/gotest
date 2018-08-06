@@ -5,6 +5,8 @@ import (
 	"time"
 	"strings"
 	"strconv"
+	"github.com/mikemintang/go-curl"
+	"fmt"
 )
 
 type GetApiExtend struct {
@@ -17,6 +19,34 @@ type ApiInfoData struct {
 	Test_api 		models.Test_api
 	Ctm_display		string
 	TestRuleList	[]models.Test_rule
+}
+/**
+测试
+ */
+func(this *GetApiExtend) GoTest(v string,info models.Test_api,id string)string{
+	req:=curl.NewRequest()
+	var addResult string
+	if info.Api_method == 1{
+		result,_ := req.SetUrl(v).Get()
+		if result.IsOk(){
+			addResult	=	result.Body
+			//记录测试过程日志
+			obTestLogModel := models.TestApiLogModel{}
+			obTestLogModel.AddOne(v,result.Body,id)//添加测试数据
+		}else {
+			fmt.Println(result.Raw)
+		}
+	}else if info.Api_method == 2 {
+		result,_ := req.SetUrl(v).Post()
+		if result.IsOk(){
+			addResult	=	result.Body
+		}else {
+			fmt.Println(result.Raw)
+		}
+	}else{
+		addResult	=	"解析失败"
+	}
+	return addResult
 }
 /**
  返回链接进行测试
@@ -36,16 +66,24 @@ func (this *GetApiExtend) ReturnUrl(rule_id []string,id string)(models.Test_api,
 	ruleList := this.GetRuleListByIdIn(&rule_id)
 	apiParams := strings.Split(getApiInfo.Api_param," ")
 	var pingjie string
+	var newApiUrl string
 	for _,vals := range ruleList{
 		for pa_key,pa_val := range apiParams{//顺序返回
 			pingjie += pa_val+"="+vals.Rule+"&"
 			if len(pingjie) <=0 {
 				continue
 			}
-			onlyString := getApiInfo.Api_url+"?"+pa_val+"="+vals.Rule//单独
+			checkStrings := strings.Contains(getApiInfo.Api_url,"?")
+			newApiUrl	=	getApiInfo.Api_url
+			if checkStrings{
+				newApiUrl	=	newApiUrl+"&"
+			}else{
+				newApiUrl	=	newApiUrl+"?"
+			}
+			onlyString := newApiUrl+pa_val+"="+vals.Rule//单独
 			rsstring = append(rsstring,onlyString)
 			if pa_key>0{
-				thisUrl:=strings.TrimRight(getApiInfo.Api_url+"?"+pingjie,"&")//组合
+				thisUrl:=strings.TrimRight(newApiUrl+pingjie,"&")//组合
 				rsstring = append(rsstring,thisUrl)
 			}
 		}
@@ -58,7 +96,14 @@ func (this *GetApiExtend) ReturnUrl(rule_id []string,id string)(models.Test_api,
 			newStr += apiParams[i]+"="+apiSuccesData[i]+"&"
 		}
 		newStr	=	strings.TrimRight(newStr,"&")
-		successUrl		:=	getApiInfo.Api_url+"?"+newStr
+		checkOnly := strings.Contains(getApiInfo.Api_url,"?")
+		newApiUrl	=	getApiInfo.Api_url
+		if checkOnly{
+			newApiUrl	=	newApiUrl+"&"
+		}else{
+			newApiUrl	=	newApiUrl+"?"
+		}
+		successUrl		:=	newApiUrl+newStr
 		rsstring = append(rsstring,successUrl)
 	}
 	return getApiInfo,rsstring

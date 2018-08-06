@@ -4,8 +4,6 @@ import (
 	"github.com/astaxie/beego"
 	"hello/extend"
 	"fmt"
-	"github.com/mikemintang/go-curl"
-	"hello/models"
 )
 
 type GetApiController struct {
@@ -26,31 +24,36 @@ func (this *GetApiController) RunTest(){
 		this.TplName		=	"public/error.html"
 		return
 	}
-	req:=curl.NewRequest()
+	var result string
 	for _,v := range urlList{
-		if info.Api_method == 1{
-			result,_ := req.SetUrl(v).Get()
-			if result.IsOk(){
-				this.Ctx.WriteString(result.Body)
-				//记录测试过程日志
-				obTestLogModel := models.TestApiLogModel{}
-				obTestLogModel.AddOne(v,result.Body,id)//添加测试数据
-			}else {
-				fmt.Println(result.Raw)
-			}
-		}else if info.Api_method == 2 {
-			result,_ := req.SetUrl(v).Post()
-			if result.IsOk(){
-				this.Ctx.WriteString("运行结果")
-				this.Ctx.WriteString(result.Body)
-			}else {
-				fmt.Println(result.Raw)
-			}
-		}else{
-			this.Ctx.WriteString("解析失败")
+		result =obGetApiExtend.GoTest(v,info,id)
+		this.Ctx.WriteString(result)
 		}
-		this.Ctx.WriteString("<br />")
-	}
+	//req:=curl.NewRequest()
+	//for _,v := range urlList{
+	//	if info.Api_method == 1{
+	//		result,_ := req.SetUrl(v).Get()
+	//		if result.IsOk(){
+	//			this.Ctx.WriteString(result.Body)
+	//			//记录测试过程日志
+	//			obTestLogModel := models.TestApiLogModel{}
+	//			obTestLogModel.AddOne(v,result.Body,id)//添加测试数据
+	//		}else {
+	//			fmt.Println(result.Raw)
+	//		}
+	//	}else if info.Api_method == 2 {
+	//		result,_ := req.SetUrl(v).Post()
+	//		if result.IsOk(){
+	//			this.Ctx.WriteString("运行结果")
+	//			this.Ctx.WriteString(result.Body)
+	//		}else {
+	//			fmt.Println(result.Raw)
+	//		}
+	//	}else{
+	//		this.Ctx.WriteString("解析失败")
+	//	}
+	//	this.Ctx.WriteString("<br />")
+	//}
 }
 func (this *GetApiController) Show(){
 	fmt.Println(this.Input())
