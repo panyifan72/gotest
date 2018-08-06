@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{range $ind, $elem :=.list}}
+编号：{{$elem.GoTestApiLog.Id}}----测试链接:{{$elem.GoTestApiLog.Loguri}}-----测试内容:{{$elem.GoTestApiLog.Log_data}}-------规则名称:{{$elem.Test_api_name}}添加时间:{{$elem.GoTestApiLog.Add_time}} <br />
+{{end}}
+总数{{.count}}<br />
+</body>
+</html>

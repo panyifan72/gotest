@@ -25,5 +25,6 @@ func init() {
 	beego.Router("admin/get_api/index",&controllers.GetApiController{},"get:Test")
 	beego.Router("admin/get_api/run",&controllers.GetApiController{},"get:RunTest")
 	beego.Router("admin/get_api/testuri",&controllers.GetApiController{},"get:Show")
+	beego.Router("admin/log/api_log",&controllers.LogListController{},"get:Show")
 	//beego.Router("test",&controllers.TestController{})
 }

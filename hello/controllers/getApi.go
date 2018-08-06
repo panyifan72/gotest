@@ -17,7 +17,8 @@ type GetApiController struct {
 func (this *GetApiController) RunTest(){
 	ruleId := this.GetStrings("rule_id")
 	obGetApiExtend	:=	extend.GetApiExtend{}
-	info,urlList:=obGetApiExtend.ReturnUrl(ruleId,this.Input().Get("id"))
+	id	:=	this.Input().Get("id")
+	info,urlList:=obGetApiExtend.ReturnUrl(ruleId,id)
 	this.Ctx.WriteString("<br />")
 	if len(urlList) <=0 {
 		this.Data["goUrl"]	=	"rule_api/index"
@@ -33,7 +34,7 @@ func (this *GetApiController) RunTest(){
 				this.Ctx.WriteString(result.Body)
 				//记录测试过程日志
 				obTestLogModel := models.TestApiLogModel{}
-				obTestLogModel.AddOne(v,result.Body)//添加测试数据
+				obTestLogModel.AddOne(v,result.Body,id)//添加测试数据
 			}else {
 				fmt.Println(result.Raw)
 			}
