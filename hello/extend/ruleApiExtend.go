@@ -45,37 +45,39 @@ func (this *RuleApiClass) GetList(where map[string]string,page int,offset int)(i
 	obRuleClass := models.RuleClass{}
 	_,RuleList 	:=	obRuleClass.GeALLRule()
 	RuleNewList :=	ruleChange(&RuleList)
+	splitStr	:=	""
 	if count >0{
-			for _,val:= range apiTestList{
-				var mapString []string
-				if len(val.Test_rule_id)>0 {//存在数据
-					newString:=strings.Split(val.Test_rule_id,",")
-					for _,stringVal := range newString{
-						stringToInt,_:=strconv.Atoi(stringVal)
-						if  stringToInt>0 {
-							if _,ok := RuleNewList[stringToInt];ok{//判断key是否在map中
-								mapString = append(mapString,RuleNewList[stringToInt].Rule_name)
-							}
+		for _,val:= range apiTestList{
+			var mapString []string
+			if len(val.Test_rule_id)>0 {//存在数据
+				newString:=strings.Split(val.Test_rule_id,",")
+				for _,stringVal := range newString{
+					stringToInt,_:=strconv.Atoi(stringVal)
+					if  stringToInt>0 {
+						if _,ok := RuleNewList[stringToInt];ok{//判断key是否在map中
+							mapString = append(mapString,RuleNewList[stringToInt].Rule_name)
 						}
 					}
-					splitStr	:=	""
-					if len(mapString)>0 {
-						splitStr = strings.Join(mapString,",")
-					}
-					var token_shows	string
-					if val.Token_status == 0{
-						token_shows		=	"关闭"
-					}else{
-						token_shows		=	"开启"
-					}
-					returnTestApiList	=	append(returnTestApiList,TestApiList{
-						Api_test_rule_str:splitStr,
-						Test_api:val,
-						Show_time:time.Unix(val.Ctm, 0).Format("2006-01-02 15:04:05"),
-						Token_show:token_shows,
-					})
 				}
+				if len(mapString)>0 {
+					splitStr = strings.Join(mapString,",")
+				}
+			}else{
+				splitStr	=	"-"
 			}
+			var token_shows	string
+			if val.Token_status == 0{
+				token_shows		=	"关闭"
+			}else{
+				token_shows		=	"开启"
+			}
+			returnTestApiList	=	append(returnTestApiList,TestApiList{
+				Api_test_rule_str:splitStr,
+				Test_api:val,
+				Show_time:time.Unix(val.Ctm, 0).Format("2006-01-02 15:04:05"),
+				Token_show:token_shows,
+			})
+		}
 	}
 	return count,err,returnTestApiList
 }

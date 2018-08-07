@@ -38,8 +38,9 @@ func(this *ApiRuleClass) GetList(where map [string]string,page int,offset int)(i
 		offset = 9
 	}
 	start := (page - 1) * offset
-	num, err1 := qs.Limit(offset, start).All(&TestApi)
-	return num,err1,TestApi
+	_, err1 := qs.Limit(offset, start).All(&TestApi)
+	coutData,_	:=	qs.Count()//统计数据
+	return coutData,err1,TestApi
 }
 /**
 获取单条记录

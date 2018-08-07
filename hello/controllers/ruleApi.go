@@ -4,7 +4,6 @@ import (
 	"github.com/astaxie/beego"
 	"hello/extend"
 	"strconv"
-	"fmt"
 )
 
 type ApiListController struct {
@@ -19,7 +18,7 @@ func (this * ApiListController) Get(){
 	obRuleExtend	:=	extend.RuleApiClass{}
 	where:=map[string]string{"rule":""}
 	count,err,list 	:=	obRuleExtend.GetList(where,1,10)
-	fmt.Println(list)
+	//fmt.Println(list)
 	if err!= nil{
 		this.Data["goUrl"]	=	"/admin/user/index"
 		this.Data["goMsg"]	=	"系统错误"
