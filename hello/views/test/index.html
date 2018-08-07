@@ -1,0 +1,15 @@
+{{template "public/header.html" .}}
+{{template "public/left.html" .}}
+    <!-- main -->
+    <div class="layui-body" kit-body="true">
+        <router-view></router-view>
+    </div>
+    <!-- footer -->
+    <div class="layui-footer" kit-footer="true">
+        2017 © kit.zhengjinfan.cn MIT license
+        <div style="width:400px; height:400px;" class="load-container load1">
+            <div class="loader">Loading...</div>
+        </div>
+    </div>
+</div>
+{{template "public/footer.html" .}}
