@@ -115,6 +115,7 @@ func (this *GetApiExtend) ReturnUrl(rule_id []string,id string)(models.Test_api,
 		successUrl		:=	newApiUrl+newStr
 		rsstring = append(rsstring,successUrl)
 	}
+	fmt.Println(rsstring)
 	return getApiInfo,rsstring
 }
 /*
