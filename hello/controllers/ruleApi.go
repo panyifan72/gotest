@@ -81,6 +81,7 @@ func (this *ApiListController) Operation(){
 	operData.Success_data	=	this.GetString("success_data")
 	operData.Api_method,_	=	strconv.Atoi(this.GetString("api_method"))
 	operData.Api_test_rule_id	=	this.GetStrings("test_rule_id")
+	operData.Token_status,_	=	this.GetInt("token_status")
 	obRulrApiExtend	:=	extend.RuleApiClass{}
 	returnArr :=	obRulrApiExtend.Operation(operData)
 	this.Data["msg"]	=	returnArr.Msg

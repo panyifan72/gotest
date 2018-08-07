@@ -13,6 +13,7 @@ type Test_api struct {
 	Test_rule_id 	string
 	Api_url			string
 	Api_method		int
+	Token_status 	int
 	Ctm				int64
 }
 type ApiRuleClass struct {
@@ -90,6 +91,7 @@ func (this *ApiRuleClass)Oper(data Test_api)error{
 			"api_url": data.Api_url,
 			"api_method": data.Api_method,
 			"success_data"	:	data.Success_data,
+			"token_status"	:	data.Token_status,
 			"ctm": getTime,
 		})
 		reErr	=	err

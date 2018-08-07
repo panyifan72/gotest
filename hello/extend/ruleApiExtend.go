@@ -22,12 +22,14 @@ type OperData struct {
 	Api_method       int
 	Api_test_rule_id []string
 	Api_param_arr	[]string
+	Token_status	int
 	Api_test_rule_id_int []int
 }
 type TestApiList struct {
 	Test_api models.Test_api
 	Api_test_rule_str string
 	Show_time	string
+	Token_show string
 }
 /**
 获取列表
@@ -60,10 +62,17 @@ func (this *RuleApiClass) GetList(where map[string]string,page int,offset int)(i
 					if len(mapString)>0 {
 						splitStr = strings.Join(mapString,",")
 					}
+					var token_shows	string
+					if val.Token_status == 0{
+						token_shows		=	"关闭"
+					}else{
+						token_shows		=	"开启"
+					}
 					returnTestApiList	=	append(returnTestApiList,TestApiList{
 						Api_test_rule_str:splitStr,
 						Test_api:val,
 						Show_time:time.Unix(val.Ctm, 0).Format("2006-01-02 15:04:05"),
+						Token_show:token_shows,
 					})
 				}
 			}
@@ -103,6 +112,7 @@ func (this *RuleApiClass) GetInfoById(id int) OperData{
 	newDataInfo.Api_url		=	dataInfo.Api_url
 	newDataInfo.Api_method	=	dataInfo.Api_method
 	newDataInfo.Success_data	=	dataInfo.Success_data
+	newDataInfo.Token_status	=	dataInfo.Token_status
 	newDataInfo.Api_test_rule_id	=	strings.Split(dataInfo.Test_rule_id,",")//格式为1,2,3,4,5需要转换[1,2,3,4,5]
 	if len(newDataInfo.Api_test_rule_id)>0 {
 		for i:=0;i<len(newDataInfo.Api_test_rule_id);i++{
@@ -133,6 +143,7 @@ func (this *RuleApiClass) Operation(data OperData) ReturnErr{
 	test_rule.Api_url		=	data.Api_url
 	test_rule.Api_method	=	data.Api_method
 	test_rule.Success_data	=	data.Success_data
+	test_rule.Token_status	=	data.Token_status
 	test_rule.Test_rule_id	=	idStr
 	fmt.Println(test_rule)
 	err := obApiRuleModel.Oper(test_rule)

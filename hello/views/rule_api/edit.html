@@ -7,14 +7,14 @@
 <body>
 <div>{{.key}}</div>
 <form action="/admin/rule_api/operation" method="post">
-    api_name:<input type="text" name="api_name" value="{{.info.Api_name}}" />
+    api名称:<input type="text" name="api_name" value="{{.info.Api_name}}" />
     <hr />
-    api_param:
+    api参数:
     <input type="text" name="api_param" value="{{.info.Api_param}}" /> <br />
     <hr />
-    api_url:<input type="text" name="api_url" value="{{.info.Api_url}}" />
+    api链接:<input type="text" name="api_url" value="{{.info.Api_url}}" />
     <hr />
-    success_data <textarea name="success_data" style="width: 100%;height:50px;">{{.info.Success_data}}</textarea>
+    api正确数据: <textarea name="success_data" style="width: 100%;height:50px;">{{.info.Success_data}}</textarea>
     编号:
 {{range $ind, $elem :=.rule_list}}
 {{$elem.Rule_name}}
@@ -22,9 +22,11 @@
     <input type="checkbox" name="test_rule_id" {{range $apikey,$apiVal := $.info.Api_test_rule_id_int}}{{if eq  $elem.Id $apiVal}} CHECKED{{end}}{{end}} value="{{$elem.Id}}">
 {{end}}
     <hr />
-    api_method:
+    请求方式:
     get:<input type="radio" name="api_method" value="0" {{if eq .info.Api_method 0}}CHECKED{{end}}>
     post:<input type="radio" name="api_method" value="1" {{if eq .info.Api_method 1}}CHECKED{{end}}>
+    <br />
+    动态令牌: 关闭:<input type="radio" name="token_status" value="0" {{if eq .info.Token_status 1}}CHECKED{{end}}> 开启:<input {{if eq .info.Token_status 1}}CHECKED{{end}} type="radio" name="token_status" value="1">
     <input type="hidden" name="id" value="{{.info.Id}}">
     <input type="submit" value="submit">
 </form>

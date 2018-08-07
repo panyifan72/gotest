@@ -65,6 +65,9 @@ func (this *GetApiExtend) ReturnUrl(rule_id []string,id string)(models.Test_api,
 	}
 	ruleList := this.GetRuleListByIdIn(&rule_id)
 	apiParams := strings.Split(getApiInfo.Api_param," ")
+	//获取动态token
+	obToken		:=	models.TokenModel{}
+	resultToken	:=	obToken.GetInfo()
 	var pingjie string
 	var newApiUrl string
 	for _,vals := range ruleList{
@@ -79,6 +82,9 @@ func (this *GetApiExtend) ReturnUrl(rule_id []string,id string)(models.Test_api,
 				newApiUrl	=	newApiUrl+"&"
 			}else{
 				newApiUrl	=	newApiUrl+"?"
+			}
+			if getApiInfo.Token_status >0 {
+				newApiUrl	=	newApiUrl+resultToken.Token_name+"="+resultToken.Token_val+"&"
 			}
 			onlyString := newApiUrl+pa_val+"="+vals.Rule//单独
 			rsstring = append(rsstring,onlyString)
@@ -102,6 +108,9 @@ func (this *GetApiExtend) ReturnUrl(rule_id []string,id string)(models.Test_api,
 			newApiUrl	=	newApiUrl+"&"
 		}else{
 			newApiUrl	=	newApiUrl+"?"
+		}
+		if getApiInfo.Token_status >0 {//添加自动参数token
+			newApiUrl	=	newApiUrl+resultToken.Token_name+"="+resultToken.Token_val+"&"
 		}
 		successUrl		:=	newApiUrl+newStr
 		rsstring = append(rsstring,successUrl)
